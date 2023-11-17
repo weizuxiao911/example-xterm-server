@@ -1,0 +1,82 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pty
+  labels:
+    app: pty
+spec:
+  # replicas: 1
+  selector:
+    matchLabels:
+      app: pty
+  template:
+    metadata:
+      labels:
+        app: pty
+    spec:
+      containers:
+      - name: ubuntu
+        # image: registry.cn-hangzhou.aliyuncs.com/os-test/nodejs:ubuntu20.04
+        image: ubuntu
+        imagePullPolicy: IfNotPresent
+        resources:  
+          limits:  
+            cpu: "0.5"  
+            memory: "512Mi"
+        securityContext:
+          privileged: true
+        command: ["bash", "-c"]
+        # args: ["node /home/dist/main.js"]
+        args: ["tail -f /dev/null"]
+        env:
+        - name: LANG
+          value: C.UTF-8
+        - name: LC_ALL
+          value: C.UTF-8
+        - name: TZ
+          value: Asia/Shanghai
+        # ports:
+        # - name: openapi-app
+        #   containerPort: 5000
+      #   volumeMounts:
+      #   - name: modules
+      #     mountPath: /home/node_modules
+      #   - name: dist
+      #     mountPath: /home/dist
+      #   - name: repo
+      #     mountPath: /opt/test/community2
+      #   - name: log
+      #     mountPath: /opt/test/logs
+      #   - name: video
+      #     mountPath: /opt/test/video
+      #   - name: envdir
+      #     mountPath: /home/.env
+      #   - name: access
+      #     mountPath: /home/access.json
+      #   - name: docs
+      #     mountPath: /home/docs
+      # volumes:
+      # - name: modules
+      #   hostPath:
+      #     path: /opt/nfs/openapi/node_modules
+      # - name: dist
+      #   hostPath:
+      #     path: /opt/nfs/openapi/dist
+      # - name: repo
+      #   hostPath:
+      #     path: /opt/nfs/community
+      # - name: log
+      #   hostPath:
+      #     path: /opt/nfs/logs
+      # - name: video
+      #   hostPath:
+      #     path: /opt/nfs/video
+      # - name: envdir
+      #   hostPath:
+      #     path: /opt/nfs/openapi/.env
+      # - name: access
+      #   hostPath:
+      #     path: /opt/nfs/openapi/access.json
+      # - name: docs
+      #   hostPath:
+      #     path: /opt/nfs/openapi/docs
